@@ -8,6 +8,7 @@ process.title = 'LootBag';
 
 const { argv: [,, ...args] } = process;
 const { child, action, toy, status } = require('./parse-args')(args);
+const { addChild, addToy } = require('./actions');
 
 const { Database } = require('sqlite3').verbose();
 const db = new Database('lootbag.sqlite');
@@ -18,14 +19,10 @@ const errorHandler = (err) => {
   };
 };
 
-db.run(`INSERT INTO toys VALUES ('${childName}', '${status}')`, [], (err) => {
-  if (err) {
-    errorHandler(err);
-  } else {
-    console.log('toy and child added');
-  }
-});
-
+if (action === 'add') {
+  addChild(child);
+  
+}
 
 
 db.close(err => {

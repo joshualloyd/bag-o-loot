@@ -1,6 +1,6 @@
 'use strict';
 
-const { assert: { isFunction, isObject, hasAllKeys, propertyVal } } = require('chai');
+const { assert: { isFunction, isObject, hasAllKeys, propertyVal, deepEqual } } = require('chai');
 const parseArgs = require('../js/parse-args');
 
 describe('testing parse-args module', () => {
@@ -25,10 +25,8 @@ describe('testing parse-args module', () => {
     it('should return an object with expected action, toy, child, and status properties and values', () => {
       let testArgsArr = ['add', 'kite', 'suzy'];
       let result = parseArgs(testArgsArr);
-      propertyVal(result, 'action', 'add');
-      propertyVal(result, 'toy','kite');
-      propertyVal(result, 'child', 'suzy');
-      propertyVal(result, 'status', 0);
+      let expected = {action: 'add', toy: 'kite', child: 'suzy', status: 0};
+      deepEqual(result, expected);
     });
 
     it('should return an object with expected status property', () => {

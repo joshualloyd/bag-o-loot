@@ -12,7 +12,7 @@ const errorHandler = (err) => {
   };
 };
 
-db.run('CREATE TABLE IF NOT EXISTS children (id INT, childName TEXT, status INT);', [], (err) => {
+db.run('CREATE TABLE IF NOT EXISTS children (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, childName TEXT, status INT);', [], (err) => {
   if (err) {
     errorHandler(err);
   } else {
@@ -20,7 +20,7 @@ db.run('CREATE TABLE IF NOT EXISTS children (id INT, childName TEXT, status INT)
   }
 });
 
-db.run('CREATE TABLE IF NOT EXISTS toys (id INT, childId INT, toy TEXT);', [], (err) => {
+db.run('CREATE TABLE IF NOT EXISTS toys (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, childId INT, toy TEXT);', [], (err) => {
   if (err) {
     errorHandler(err);
   } else {
