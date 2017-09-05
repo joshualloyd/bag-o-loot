@@ -1,0 +1,24 @@
+{
+  "name": "17-tdd-bag-o-loot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./js/lootbag.js",
+  "scripts": {
+    "test": "mocha --watch --recursive -R spec"
+  },
+  "eslintConfig": {
+    "env": {
+        "node": true,
+        "es6": true
+    }
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "sqlite3": "^3.1.9"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^3.5.0"
+  }
+}
