@@ -9,27 +9,52 @@ const errorHandler = (err) => {
   };
 };
 
-module.exports.addChild = (childName) => {
-
-  console.log('childname', childName);
+module.exports.addChild = (childName, toy, callback) => {
 
   db.run(`INSERT INTO children VALUES (null, '${childName}', 0)`, [], function(err) {
     if (err) {
       errorHandler(err);
     } 
-      console.log('last ID', this.lastID, 'changes', this.changes, 'this', this);
+      console.log('child added', this.lastID);
+      callback ? callback(this.lastID, toy) : null;
   });
-
 };
 
 module.exports.addToy = (childId, toy) => {
-  
   db.run(`INSERT INTO toys VALUES (null, ${childId}, '${toy}')`, [], function(err) {
     if (err) {
       errorHandler(err);
-    } else {
-      console.log('toy and child added');
-    }
+    } 
+      console.log('toy added to child', this.lastID);
   });
+};
 
+module.exports.removeChild = () => {
+  db.run(`DELETE FROM children WHERE childName = '${childName}'`, [], function(err) {
+    if (err) {
+      errorHandler(err);
+    } 
+      console.log('child removed', this.lastID);
+      callback ? callback(this.lastID, toy) : null;
+  });
+};
+
+module.exports.removeToy = () => {
+
+};
+
+module.exports.getToy = () => {
+
+};
+
+module.exports.getChild = () => {
+
+};
+
+module.exports.getChildren = () => {
+
+};
+
+module.exports.getToysByChild = () => {
+  
 };
