@@ -1,6 +1,6 @@
 'use strict';
 
-const { assert: { isFunction, isObject, hasAllKeys, propertyVal, deepEqual } } = require('chai');
+const { assert: { isFunction, isObject, hasAllKeys, propertyVal, deepEqual, isNumber, isArray } } = require('chai');
 const { addChild, removeChild, addToy, removeToy, getChild, getToy, getChildren, getToysByChild } = require('../js/actions');
 
 describe('testing actions module', () => {
@@ -28,6 +28,11 @@ describe('testing actions module', () => {
     it('should exist', () => {
       isFunction(getChild);
     });
+    it('should return a child id when passed a child name', () => {
+      getChild('suzy', (dataFromGetChild)=>{
+        isNumber(dataFromGetChild);
+      });
+    });
   });
   describe('testing getToy()', () => {
     it('should exist', () => {
@@ -42,6 +47,11 @@ describe('testing actions module', () => {
   describe('testing getToysByChild()', () => {
     it('should exist', () => {
       isFunction(getToysByChild);
+    });
+    it('should return an array of toys when passed a childId', () => {
+      getToysByChild(1, (dataFromGetToysByChild)=>{
+        isArray(dataFromGetToysByChild);
+      });
     });
   });
 });

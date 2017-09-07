@@ -9,23 +9,25 @@ const errorHandler = (err) => {
   };
 };
 
-module.exports.addChild = (childName, toy, callback) => {
+module.exports.addChild = (childName, callback) => {
 
   db.run(`INSERT INTO children VALUES (null, '${childName}', 0)`, [], function(err) {
     if (err) {
       errorHandler(err);
     } 
-      console.log('child added', this.lastID);
-      callback ? callback(this.lastID, toy) : null;
+      // console.log('child added', this.lastID);
+    return callback(this.lastID);
+      // callback ? callback(this.lastID, toy) : null;
   });
 };
 
-module.exports.addToy = (childId, toy) => {
+module.exports.addToy = (childId, toy, callback) => {
   db.run(`INSERT INTO toys VALUES (null, ${childId}, '${toy}')`, [], function(err) {
     if (err) {
       errorHandler(err);
     } 
-      console.log('toy added to child', this.lastID);
+    // console.log('toy added to child', this.lastID);
+    return callback({toy: toy});
   });
 };
 
@@ -47,14 +49,24 @@ module.exports.getToy = () => {
 
 };
 
-module.exports.getChild = () => {
-
+module.exports.getChild = (childName, callback) => {
+  db.get(`SELECT * FROM children WHERE childName = '${childName}'`, [], function(err, row) {
+    if (err) {
+      errorHandler(err);
+    }
+    return callback(row.id);
+  });
 };
 
 module.exports.getChildren = () => {
 
 };
 
-module.exports.getToysByChild = () => {
-  
+module.exports.getToysByChild = (childId, callback) => {
+  db.all(`SELECT * FROM toys WHERE childId = ${childId}`, [], function(err, rows) {
+    if (err) {
+      errorHandler(err);
+    }
+    return callback(rows);
+  });
 };

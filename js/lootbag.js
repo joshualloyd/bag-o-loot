@@ -8,7 +8,7 @@ process.title = 'LootBag';
 
 const { argv: [,, ...args] } = process;
 const { child, action, toy, status } = require('./parse-args')(args);
-const { addChild, addToy } = require('./actions');
+const { addChild, addToy, removeChild, removeToy, getChild, getToy, getChildren, getToysByChild } = require('./actions');
 
 const { Database } = require('sqlite3').verbose();
 const db = new Database('lootbag.sqlite');
@@ -21,12 +21,22 @@ const errorHandler = (err) => {
 
 // Items can be added to bag.
 if (action === 'add') {
-  addChild(child, toy, addToy);
+  addChild(child, (dataFromAddChild)=>{
+    addToy(dataFromAddChild, toy, (dataFromAddToy)=>{
+      console.log(`${child} is getting a ${dataFromAddToy.toy}`);
+    });
+  });
 }
 
 // Must be able to list all toys for a given child's name.
 if (action === 'ls' && child) {
-  
+  getChild(child, (dataFromGetChild)=>{
+    getToysByChild(dataFromGetChild, (dataFromGetToysByChild)=>{
+      dataFromGetToysByChild.forEach((toyRow)=>{
+        console.log(`${child} will get a ${toyRow.toy}`);
+      });
+    });
+  });
 }
 
 // Items can be removed from bag, per child only. Removing ball from the bag should not be allowed. A child's name must be specified.
